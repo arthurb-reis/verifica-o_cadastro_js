@@ -1,4 +1,4 @@
-//Site: https://arthurb-reis.github.io/verifica-o_cadastro_js/
+//Site: https://arthurb-reis.github.io/verifica-o_cadastro_js/ 
 
 //OBS: Analisando os requisitos, é possível perceber que algumas senhas não se encaixam nem em fracas, nem em médias
     //nem em fortes. Assim, eu considerei que essas, mesmo que não se encaixem, seriam consideradas fracas, por default.
