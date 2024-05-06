@@ -1,4 +1,9 @@
-//criando os objetos dos elementos de texto do form
+//Site: https://arthurb-reis.github.io/verifica-o_cadastro_js/
+
+//OBS: Analisando os requisitos, é possível perceber que algumas senhas não se encaixam nem em fracas, nem em médias
+    //nem em fortes. Assim, eu considerei que essas, mesmo que não se encaixem, seriam consideradas fracas, por default.
+
+//criando os objetos dos elementos de texto do formulário
 
 var nome = document.querySelector("#inputName");
 var nomeHelp = document.querySelector("#inputNameHelp");
@@ -9,6 +14,7 @@ var emailHelp = document.querySelector("#inputEmailHelp");
 var senha = document.querySelector("#inputPassword");
 var senhaHelp = document.querySelector("#inputPasswordHelp");
 var senhaResult = document.querySelector("#inputResult");
+var meter = document.querySelector("#passStrengthMeter");
 
 /*declarando o evento listener para o campos de texto do form. 
 Uma vez o foco do campo inputName mude, será chamada a função validarNome*/
@@ -99,13 +105,17 @@ function validarSenha(e) {
         (e.target.value.length >= 6 && e.target.value.length <= 20) && (ano.value === '' || (!e.target.value.includes(ano.value))) && (nome.value === '' || (!e.target.value.includes(nome.value)))){
         if(e.target.value.length > 12 && e.target.value.match(/[@#%&!+]/g).length > 1 && e.target.value.match(/[A-Z]/g).length > 1 && e.target.value.match(/[0-9]/g).length > 1){
             senhaHelp.textContent = 'Senha forte';
+            meter.value = "30";
         } else if(e.target.value.length > 8 && e.target.value.search(/[@#%&!+]/) !== -1 && e.target.value.search(/[A-Z]/) !== -1 && e.target.value.search(/[0-9]/) !== -1){
             senhaHelp.textContent = 'Senha moderada';
+            meter.value = "20";
         } else if(e.target.value.length < 8 && e.target.value.search(/[@#%&!+]/) !== -1 && e.target.value.search(/[0-9]/) !== -1){
             senhaHelp.textContent = 'Senha fraca';
+            meter.value = "10";
         }
         else {
-            senhaHelp.textContent = '';
+            senhaHelp.textContent = 'Senha fraca';
+            meter.value = "10";
         }
     }
     else{
