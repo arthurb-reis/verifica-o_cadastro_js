@@ -1,4 +1,4 @@
-//Site: https://arthurb-reis.github.io/verifica-o_cadastro_js/ 
+//Site: https://arthurb-reis.github.io/verifica-o_cadastro_js/
 
 //OBS: Analisando os requisitos, é possível perceber que algumas senhas não se encaixam nem em fracas, nem em médias
     //nem em fortes. Assim, eu considerei que essas, mesmo que não se encaixem, seriam consideradas fracas, por default.
@@ -15,6 +15,11 @@ var senha = document.querySelector("#inputPassword");
 var senhaHelp = document.querySelector("#inputPasswordHelp");
 var senhaResult = document.querySelector("#inputResult");
 var meter = document.querySelector("#passStrengthMeter");
+var submit = document.getElementById("submit");
+var nome_valido = false;
+var ano_valido = false;
+var email_valido = false;
+var senha_valido = false;
 
 /*declarando o evento listener para o campos de texto do form. 
 Uma vez o foco do campo inputName mude, será chamada a função validarNome*/
@@ -36,9 +41,11 @@ function validarNome(e){
         //muda o conteúdo e o estilo do objeto nomeHelp que referencia o elemento html com id=inputNameHelp
         nomeHelp.textContent = "Formato de nome inválido"; 
         nomeHelp.style.color="red";
+        nome_valido = false;
     }
     else{
         nomeHelp.textContent = "";
+        nome_valido = true;
     }       
 }
 
@@ -58,6 +65,7 @@ ano.addEventListener('focusout', () => {
         //muda o conteúdo e o estilo do objeto nomeHelp que referencia o elemento html com id=inputYearHelp
         anoHelp.textContent = "Formato de ano inválido";
         anoHelp.style.color="red";
+        ano_valido = false;
     }
     else{
         //objeto Date
@@ -69,14 +77,17 @@ ano.addEventListener('focusout', () => {
              //muda o conteúdo e o estilo do objeto nomeHelp que referencia o elemento html com id=inputYearHelp
             anoHelp.textContent = `Ano inválido. O ano não pode ser maior que ${date.getFullYear()}.`;
             anoHelp.style.color="red";
+            ano_valido = false;
         }
         else if( parseInt(anoTrimado) < parseInt(date.getFullYear())-120 ){
              //muda o conteúdo e o estilo do objeto nomeHelp que referencia o elemento html com id=inputYearHelp
             anoHelp.textContent = `Ano inválido. O ano não pode ser menor que ${date.getFullYear()-120}.`;
             anoHelp.style.color="red";
+            ano_valido = false;
         }
         else{
             anoHelp.textContent="";
+            ano_valido = true;
         }        
         
     }
@@ -91,9 +102,11 @@ function validarEmail(e) {
     if(e.target.value.trim().match(regExEmail) == null){
         emailHelp.textContent = 'Email inválido';
         emailHelp.style.color = "red";
+        email_valido = false;
     } else {
         console.log("Email válido!")
         emailHelp.textContent = '';
+        email_valido = true;
     }
 }
 
@@ -103,6 +116,7 @@ function validarSenha(e) {
     console.log(ano.value);
     if(((e.target.value.search(/[@#%&!+]/) !== -1) || (e.target.value.search(/[A-Z]/) !== -1) || (e.target.value.search(/[0-9]/) !== -1)) &&
         (e.target.value.length >= 6 && e.target.value.length <= 20) && (ano.value === '' || (!e.target.value.includes(ano.value))) && (nome.value === '' || (!e.target.value.includes(nome.value)))){
+        senha_valido = true;
         if(e.target.value.length > 12 && e.target.value.match(/[@#%&!+]/g).length > 1 && e.target.value.match(/[A-Z]/g).length > 1 && e.target.value.match(/[0-9]/g).length > 1){
             senhaHelp.textContent = 'Senha forte';
             meter.value = "30";
@@ -121,5 +135,15 @@ function validarSenha(e) {
     else{
         senhaHelp.textContent = 'Senha inválida';
         senhaHelp.style.color = "red";
+        senha_valido = false;
     }
+}
+
+submit.addEventListener('click', validarTodos);
+
+function validarTodos(e) {
+    if(nome_valido && ano_valido && email_valido && senha_valido)
+        inputResult.textContent = 'Dados registrados com sucesso!';
+    else
+        inputResult.textContent = 'Dados inválidos';
 }
